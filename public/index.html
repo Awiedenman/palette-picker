@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Palette Picker</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="normalize.css" />    
     <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
     <script src="script.js"></script>
   </head>
@@ -20,7 +21,7 @@
         <div class="box palette-color3"></div>
         <div class="box palette-color4"></div>
         <div class="box palette-color5"></div>
-        <button>Generate New Palette</button>
+        <button class="palette-button">Generate New Palette</button>
       </div>
       <div class="project-info">
         <select name="projects">
@@ -29,9 +30,14 @@
           <option value="project1">garbage man3</option>
           <option value="project1">garbage man4</option>
         </select>
-        <input type="" name="palette-name">
+        <input type="text" name="new-palette-name" placeholder="">
       </div>
     </main>
-    <section class="projects"></section>
+    <section class="projects">
+      <label for="new-project"> Create a project
+        <input type="text" name="new-project">
+        <button>save</button>
+      </label>
+    </section>
   </body>
 </html>

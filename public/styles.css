@@ -10,6 +10,18 @@
   box-shadow: 1px 1px 1px 0.15px;
 }
 
+.palette-button {
+  display: flex;
+  margin: 0 auto;
+}
+
 .project-info {
-  display: inline-block;
+  display: flex;
+  justify-content: center;
+}
+
+.projects {
+  padding: 30px;
+  border-top: 5px solid #000;
+  text-align: center;
 }
