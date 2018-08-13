@@ -7,7 +7,7 @@
     <title>Palette Picker</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="normalize.css" />    
-    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="styles.css" />
     <script src="script.js"></script>
   </head>
   <body>
@@ -16,12 +16,22 @@
     </header>
     <main>
       <div class="palette">
-        <div class="box palette-color1"></div>
-        <div class="box palette-color2"></div>
-        <div class="box palette-color3"></div>
-        <div class="box palette-color4"></div>
-        <div class="box palette-color5"></div>
-        <button class="palette-button">Generate New Palette</button>
+        <div class="box palette-color-1">
+          <h3 class="hex"></h3>
+        </div>
+        <div class="box palette-color-2">
+          <h3 class="hex"></h3>
+        </div>
+        <div class="box palette-color-3">
+          <h3 class="hex"></h3>
+        </div>
+        <div class="box palette-color-4">
+          <h3 class="hex"></h3>
+        </div>
+        <div class="box palette-color-5">
+          <h3 class="hex"></h3>
+        </div>
+        <button class="palette-generate-button">Generate New Palette</button>
       </div>
       <div class="project-info">
         <select name="projects">
@@ -39,5 +49,7 @@
         <button>save</button>
       </label>
     </section>
+    <script type="text/javascript" src="script.js"></script>
+
   </body>
 </html>
