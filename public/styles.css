@@ -5,7 +5,7 @@
 .box {
   display: inline-block;
   height: 350px;
-  width: calc(20% - 7px);
+  width: calc(20% - 10px);
   border: 1px solid black;
   box-shadow: 1px 1px 1px 0.15px;
 }

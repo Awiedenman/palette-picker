@@ -1,14 +1,24 @@
-var generateBtn = document.querySelector(".palette-generate-button")
-generateBtn.addEventListener("click", randomColor);
+// window.onload = randomColor();
+var generatePaletteBtn = document.querySelector(".palette-generate-button")
+  // console.log('button', generatePaletteBtn)
+  generatePaletteBtn.addEventListener("click", randomColor);
 
 randomColor();
+
+function newColor() {
+  return '#' + Math.floor(Math.random() * 16777215).toString(16);
+} 
 
 function randomColor(e) {
   // e.preventDefault();
   console.log('click')
-  for (let i = 0; i < 6; i++) {
-    var color = document.querySelector(`.palette-color${i}`);
-    console.log(color);
-    var hex = document.querySelector(`.hex-${i}`);
+  for (let i = 0; i < 5; i++) {
+    var paletteColor = newColor();
+    document.querySelector(`.hex-${i}`).innerText = paletteColor;
+    // console.log('color', `.palette-color${i}`);
+    document.querySelector(`.palette-color-${i}`).style.background = paletteColor;
+    // console.log();
+    // console.log(color);
+    // hex.innerText(randomColor);
   }
 }
