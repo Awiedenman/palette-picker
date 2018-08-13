@@ -1,0 +1,11 @@
+.main-title {
+  color: rgb(107, 95, 140)
+}
+
+.box {
+  display: inline-block;
+  height: 350px;
+  width: calc(20% - 7px);
+  border: 1px solid black;
+  box-shadow: 1px 1px 1px 0.15px;
+}
