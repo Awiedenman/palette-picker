@@ -9,3 +9,7 @@
   border: 1px solid black;
   box-shadow: 1px 1px 1px 0.15px;
 }
+
+.project-info {
+  display: inline-block;
+}
