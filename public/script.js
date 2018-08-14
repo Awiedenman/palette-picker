@@ -1,24 +1,28 @@
-// window.onload = randomColor();
-var generatePaletteBtn = document.querySelector(".palette-generate-button")
-  // console.log('button', generatePaletteBtn)
-  generatePaletteBtn.addEventListener("click", randomColor);
+// class Colors {
+//   constructor() { 
+//     colors: {
+//       color1,
+//       color2,
+//       color3
+//     }
+//   }
+  
+$(".palette-generate-button").on("click", randomColors);
 
-randomColor();
+randomColors();
 
 function newColor() {
   return '#' + Math.floor(Math.random() * 16777215).toString(16);
 } 
 
-function randomColor(e) {
-  // e.preventDefault();
-  console.log('click')
+function toggleLock() {
+}
+
+function randomColors(e) {
   for (let i = 0; i < 5; i++) {
     var paletteColor = newColor();
-    document.querySelector(`.hex-${i}`).innerText = paletteColor;
-    // console.log('color', `.palette-color${i}`);
-    document.querySelector(`.palette-color-${i}`).style.background = paletteColor;
-    // console.log();
-    // console.log(color);
-    // hex.innerText(randomColor);
+    $(`.hex-${i}`).text(paletteColor);
+    // console.log(paletteColor);
+    $(`.palette-color-${i}`).css('backgroundColor', `${paletteColor}`);
   }
 }
