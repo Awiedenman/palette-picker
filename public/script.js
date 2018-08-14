@@ -1,4 +1,5 @@
 
+
 class Palette {
   constructor() { 
     this.colors = [
@@ -16,33 +17,30 @@ class Palette {
   } 
   
   populateColors() {
-    this.colors.forEach(colorNum => {
-      if (!colorNum.locked){
-        colorNum.color = this.newColor()
+    this.colors.forEach(colorSwatch => {
+      if (!colorSwatch.locked){
+        colorSwatch.color = this.newColor()
       }
     })
-    // console.log(this.colors)
   }
+  
+  colorLock() {
+    this.colors[id].locked = !this.colors[id].locked;
+  };
 }
 
+let palette = new Palette(); 
+$(".palette-generate-button").on("click", createPalette);
+$('.locked-btn').on('click', palette.toggleLock)
 
+createPalette();
 
-  // toggleLock() {
-  //         }
-  // }
+function createPalette() {
+  palette.populateColors()
+  assignRandomColors()
+}
 
-  let palette = new Palette();
-             
-  createPalette();
-  $(".palette-generate-button").on("click", createPalette);
-   
-  
-  function createPalette() {
-    palette.populateColors()
-    assignRandomColors()
-  }
-
-  function assignRandomColors(e) {
+function assignRandomColors(e) {
     const paletteColors = palette.colors;
     for (let i = 0; i < 5; i++) {
       $(`.hex-${i}`).text(paletteColors[i].color);
@@ -50,3 +48,7 @@ class Palette {
       $(`.palette-color-${i}`).css('backgroundColor', `${paletteColors[i].color}`);
     }
   }
+
+function toggleLock(e) {
+
+}
