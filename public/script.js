@@ -1,5 +1,3 @@
-
-
 class Palette {
   constructor() { 
     this.colors = [
@@ -13,7 +11,6 @@ class Palette {
   
   newColor() {
     return '#' + Math.floor(Math.random() * 16777215).toString(16);
-    // console.log($)
   } 
   
   populateColors() {
@@ -24,14 +21,14 @@ class Palette {
     })
   }
   
-  colorLock() {
+  colorLock(id) {
     this.colors[id].locked = !this.colors[id].locked;
   };
 }
 
 let palette = new Palette(); 
 $(".palette-generate-button").on("click", createPalette);
-$('.locked-btn').on('click', palette.toggleLock)
+$('.locked-btn').on('click', toggleLock)
 
 createPalette();
 
@@ -50,5 +47,8 @@ function assignRandomColors(e) {
   }
 
 function toggleLock(e) {
+const id = e.target.id;
+palette.colorLock(id)
+console.log(palette.colors);
 
 }
