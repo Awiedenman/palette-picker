@@ -66,12 +66,13 @@ function toggleLock(e) {
 function saveColorPalette(e) {
   e.preventDefault();
   const newPalette = $(e.target).children('.new-palette-input').val();
-  $('project-container').append(`<div>${newPalette}</div>`);
-  $('.new-palette-input').val('');
+  $('project-container').append(`<div>${newPalette}</div>`)
 }
 
 function saveNewProject(e) {
   e.preventDefault();
+  let newProject = $(e.target).find('.new-project-input').val();
   $('select').append(`<option value="project1">${newProject}</option>`)
+  $('.project-container').append(`<div><h2>${newProject}</h2></div>`)
   $('.new-project-input').val('');
 }
