@@ -33,7 +33,6 @@ class Palette {
 }
 
 
-
 let palette = new Palette(); 
 
 $(".palette-generate-button").on("click", createPalette);
@@ -76,3 +75,5 @@ function saveNewProject(e) {
   $('.project-container').append(`<div><h2>${newProject}</h2></div>`)
   $('.new-project-input').val('');
 }
+
+function projectRequest()
