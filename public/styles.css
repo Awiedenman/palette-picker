@@ -12,25 +12,29 @@
 
 .palette-generate-button {
   display: flex;
-  margin: 0 auto;
+  margin: 20px auto;
+  padding: 15px;
 }
 
-.project-info {
+.new-palette-form {
   display: flex;
   justify-content: center;
+  padding: 30px;
 }
 
-.projects {
+.new-project-form {
+  display: flex;
+  justify-content: center;
   padding: 30px;
   border-top: 5px solid #000;
   text-align: center;
 }
 
+/* .projects {
+} */
+
 .locked-btn {
-  /* background-image: url("../images/unlock.svg");
-  background-repeat: repeat;
-  background-size: cover;  */
-  background-color: blueviolet;
+  background-image: url("./images/unlock.svg");
   height: 20px;
   width: 20px;
 }

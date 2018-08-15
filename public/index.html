@@ -37,22 +37,20 @@
         </div>
         <button class="palette-generate-button">Generate New Palette</button>
       </div>
-      <div class="project-info">
+      <form class="new-palette-form">
         <select name="projects">
-          <option value="project1">garbage man</option>
-          <option value="project1">garbage man2</option>
-          <option value="project1">garbage man3</option>
-          <option value="project1">garbage man4</option>
         </select>
-        <input type="text" name="new-palette-name" placeholder="">
-      </div>
+        <input class="new-palette-input" type="text" name="new-palette-name" placeholder="">
+        <button class="save-palette">save palette</button>
+      </form>
     </main>
-    <section class="projects">
+    <form class="new-project-form">
       <label for="new-project"> Create a project
-        <input type="text" name="new-project">
-        <button>save</button>
+        <input class="new-project-input" type="text" name="new-project">
+        <button class="new-project-btn">save</button>
       </label>
-    </section>
+    </form>
+     <section class="project-container"></section> 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script type="text/javascript" src="script.js"></script>
   </body>

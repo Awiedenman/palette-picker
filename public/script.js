@@ -23,12 +23,24 @@ class Palette {
   
   colorLock(id) {
     this.colors[id].locked = !this.colors[id].locked;
-  };
+    // $(`.palette-color-${id}`).style('background-image', 'url("./images/lock.svg")')
+    // $(`.palette-color-${id}`).click(function () {
+    //   $(`.palette-color-${id}`).css({
+    //     'background-image': url("./images/lock.svg"),
+    //   });
+    // })
+  }
 }
 
+
+
 let palette = new Palette(); 
+
 $(".palette-generate-button").on("click", createPalette);
 $('.locked-btn').on('click', toggleLock)
+$('.new-palette-form').on('submit', saveColorPalette);
+$('.new-project-form').on('submit', saveNewProject);
+
 
 createPalette();
 
@@ -47,8 +59,21 @@ function assignRandomColors(e) {
   }
 
 function toggleLock(e) {
-const id = e.target.id;
-palette.colorLock(id)
-console.log(palette.colors);
+  const id = e.target.id;
+  palette.colorLock(id)
+}
 
+function saveColorPalette(e) {
+  e.preventDefault();
+  const newPalette = $(e.target).children('.new-palette-input').val();
+  $('project-container').append(`<div>${newPalette}</div>`)
+}
+
+function saveNewProject(e) {
+  e.preventDefault();
+  console.log(e.target);
+  
+  const newProject = $(e.target).find('.new-project-input').val();
+  console.log(newProject);
+  $('select').append(`<option value="project1">${newProject}</option>`)
 }
