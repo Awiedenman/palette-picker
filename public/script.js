@@ -42,6 +42,7 @@ $('.new-project-form').on('submit', saveNewProject);
 
 
 createPalette();
+projectRequest();
 
 function createPalette() {
   palette.populateColors()
@@ -76,4 +77,16 @@ function saveNewProject(e) {
   $('.new-project-input').val('');
 }
 
-function projectRequest()
+function projectRequest(id) {
+  const url = `http://localhost:3000/api/v1/projects/`
+  return fetch(url)
+    .then(response => response.json())
+    .then(projectData => console.log(projectData))
+}
+
+function projectRequestId(id) {
+  const url = `http://localhost:3000/api/v1/projects/${id}`
+  return fetch(url)
+    .then(response => response.json())
+    .then(projectData => console.log(projectData))
+}
