@@ -29,7 +29,8 @@ app.get('/', (request, response) => {
 // ]
 
 app.get('/api/v1/projects/', (request, response) => {
-  const palettes = app.locals.palettes
+  database('projects').select()
+  .then(() => {})
 
   response.json({palettes})
 })
