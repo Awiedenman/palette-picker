@@ -17,29 +17,44 @@ app.get('/', (request, response) => {
   response.send('Palette Picker');
 });
 
-// app.locals.palettes = [
-//   { project: {
-//       project_name: 'RoadKill',
-//       palette:{
-//         palette_name: 'Austin loves colors',
-//         colors: ['ffffff', 'ffffff', 'ffffff', 'ffffff', 'ffffff', 'ffffff']
-//       }
-//     } 
-//   }
-// ]
-
 app.get('/api/v1/projects/', (request, response) => {
   database('projects').select()
-  .then(() => {})
-
-  response.json({palettes})
+  .then((projects) => {
+    response.status(200).json(projects);
+  })
+  .catch((error)=> {
+    response.status(500).json({error})
+  })
 })
 
 app.post('/api/v1/projects', (request, response) => {
   const project = request.body;
-  app.locals.palettes.push(project);
+  
+  for (let requiredParameter of ['project_name']){
+    if (!project[requiredParameter]) {
+      return response
+        .status(422)
+        .send({error: `Expected format: { project_name: <STRING>} You're missing a "${requiredParameter}" property.`});
+    }
+  }
 
-  response.status(201).json(project)
+database('projects').insert(project, 'id')
+  .then(paper => {
+    response.status(201).json({ id: project[0]})
+  })
+  .catch(error => {
+    response.status(500).json({error});
+  })
+
+
+
+
+  // app.post('/api/v1/projects', (request, response) => {
+  // const palette = request.body;
+  
+  // for (let requiredParameter of ['palette_name', 'color_1', 'color_2', 'color_3', 'color_4', 'color_5']){
+    
+  // }
   
   // const keys = [
   //   "project_name",
