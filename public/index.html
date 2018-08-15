@@ -6,21 +6,52 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Palette Picker</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
-    <script src="script.js"></script>
+    <link rel="stylesheet" type="text/css" media="screen" href="normalize.css" />    
+    <link rel="stylesheet" type="text/css" media="screen" href="styles.css" />
   </head>
   <body>
     <header>
       <h1 class="main-title">Palette Picker</h1>  
     </header>
-    <section class="palette"></section>
-      <div class="box palette-color1"></div>
-      <div class="box palette-color2"></div>
-      <div class="box palette-color3"></div>
-      <div class="box palette-color4"></div>
-      <div class="box palette-color5"></div>
-      <button>Generate New Palette</button>
-      <input type="text" name="palette-name">
-    <section class="projects"></section>
+    <main>
+      <div class="palette">
+        <div class="box palette-color-0">
+          <h3 class="hex-0"></h3>
+          <div class="locked-btn" id="0"></div>
+        </div>
+        <div class="box palette-color-1">
+          <h3 class="hex-1"></h3>
+          <div class="locked-btn" id="1"></div>
+        </div>
+        <div class="box palette-color-2">
+          <h3 class="hex-2"></h3>
+          <div class="locked-btn" id="2"></div>
+        </div>
+        <div class="box palette-color-3">
+          <h3 class="hex-3"></h3>
+          <div class="locked-btn" id="3"></div>
+        </div>
+        <div class="box palette-color-4">
+          <h3 class="hex-4"></h3>
+          <div class="locked-btn" id="4"></div>
+        </div>
+        <button class="palette-generate-button">Generate New Palette</button>
+      </div>
+      <form class="new-palette-form">
+        <select name="projects">
+        </select>
+        <input class="new-palette-input" type="text" name="new-palette-name" placeholder="">
+        <button class="save-palette">save palette</button>
+      </form>
+    </main>
+    <form class="new-project-form">
+      <label for="new-project"> Create a project
+        <input class="new-project-input" type="text" name="new-project">
+        <button class="new-project-btn">save</button>
+      </label>
+    </form>
+     <section class="project-container"></section> 
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="script.js"></script>
   </body>
-</html>
+  </html>

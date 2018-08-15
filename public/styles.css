@@ -5,7 +5,33 @@
 .box {
   display: inline-block;
   height: 350px;
-  width: calc(20% - 7px);
+  width: calc(20% - 10px);
   border: 1px solid black;
   box-shadow: 1px 1px 1px 0.15px;
+}
+
+.palette-generate-button {
+  display: flex;
+  margin: 20px auto;
+  padding: 15px;
+}
+
+.new-palette-form {
+  display: flex;
+  justify-content: center;
+  padding: 30px;
+}
+
+.new-project-form {
+  display: flex;
+  justify-content: center;
+  padding: 30px;
+  border-top: 5px solid #000;
+  text-align: center;
+}
+
+.locked-btn {
+  background-image: url("./images/unlock.svg");
+  height: 20px;
+  width: 20px;
 }
