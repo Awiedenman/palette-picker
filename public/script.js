@@ -43,6 +43,7 @@ $('.new-project-form').on('submit', saveNewProject);
 
 createPalette();
 projectRequest();
+// paletteRequest();
 
 function createPalette() {
   palette.populateColors()
@@ -63,10 +64,21 @@ function toggleLock(e) {
   palette.colorLock(id)
 }
 
+function hexCodes() {
+  hexCodeColors = [];
+  $('.box h3').each(function(index, box){
+    hexCodeColors.push(box.innerText);
+  })
+  return hexCodeColors
+}
+
 function saveColorPalette(e) {
   e.preventDefault();
-  const newPalette = $(e.target).children('.new-palette-input').val();
-  $('project-container').append(`<div>${newPalette}</div>`)
+  const newPaletteName = $(e.target).children('.new-palette-input').val();
+  const colors = hexCodes()
+  console.log('colors', colors);
+  
+  // $('project-container').append(`<div>${newPalette}</div>`)
 }
 
 function saveNewProject(e) {
@@ -77,16 +89,46 @@ function saveNewProject(e) {
   $('.new-project-input').val('');
 }
 
-function projectRequest(id) {
+function displayProjects(projectData, paletteData) {
+  console.log(projectData);
+  const displayProjects = projectData.map(project => {
+    console.log('project', project);
+    const fetchPalletes = paletteRequestId(project.id)
+    console.log(fetchPalletes)
+    // $('.project-container').append(`<div><h2>${project.project_name}</h2></div>`);
+  })
+}
+
+// !function displayPalettesOnPageLoad(projectData, paletteData) {
+//   !console.log(paletteData);
+//   !const displayPalettes = paletteData.filter(palette => {
+//     // $('.project-container').append(`<div><h2>${project.project_name}</h2></div>`);
+
+//  ! })
+
+function projectRequest() {
   const url = `http://localhost:3000/api/v1/projects/`
   return fetch(url)
     .then(response => response.json())
-    .then(projectData => console.log(projectData))
+    .then(projectData => paletteRequestId(projectData))
 }
 
 function projectRequestId(id) {
   const url = `http://localhost:3000/api/v1/projects/${id}`
   return fetch(url)
     .then(response => response.json())
-    .then(projectData => console.log(projectData))
+    .then(projectIdData => displayProjects(projectIdData))
+}
+
+function paletteRequestId(projectData) {
+  console.log(projectData);
+  const projectIds = projectData.map(project => {
+    console.log(project.id);
+    const url = `http://localhost:3000/api/v1/palettes/${project.id}`
+    return fetch(url)
+      .then(response => response.json())
+      .then(paletteData => console.log('paletteData', paletteData)
+)
+  })
+  // return Promise.all(projectsIds)
 }
