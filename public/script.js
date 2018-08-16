@@ -76,7 +76,17 @@ function saveColorPalette(e) {
   e.preventDefault();
   const newPaletteName = $(e.target).children('.new-palette-input').val();
   const colors = hexCodes()
-  console.log('colors', colors);
+  const data = {
+    palette_name: newPaletteName,
+    color_1: colors[0],
+    color_2: colors[1], 
+    color_3: colors[2], 
+    color_4: colors[3], 
+    color_5: colors[4],
+    project_id: 1
+  }
+  postPaletteToDb(data);
+  console.log('data', data);
   
   // $('project-container').append(`<div>${newPalette}</div>`)
 }
@@ -87,6 +97,8 @@ function saveNewProject(e) {
   $('select').append(`<option value="project1">${newProject}</option>`)
   $('.project-container').append(`<div><h2>${newProject}</h2></div>`)
   $('.new-project-input').val('');
+  postProjectToDb(newProject);
+  
 }
 
 function displayProjects(projectData, paletteData) {
@@ -113,12 +125,12 @@ function projectRequest() {
     .then(projectData => paletteRequestId(projectData))
 }
 
-function projectRequestId(id) {
-  const url = `http://localhost:3000/api/v1/projects/${id}`
-  return fetch(url)
-    .then(response => response.json())
-    .then(projectIdData => displayProjects(projectIdData))
-}
+// function projectRequestId(id) {
+//   const url = `http://localhost:3000/api/v1/projects/${id}`
+//   return fetch(url)
+//     .then(response => response.json())
+//     .then(projectIdData => displayProjects(projectIdData))
+// }
 
 function paletteRequestId(projectData) {
   console.log(projectData);
@@ -127,8 +139,43 @@ function paletteRequestId(projectData) {
     const url = `http://localhost:3000/api/v1/palettes/${project.id}`
     return fetch(url)
       .then(response => response.json())
-      .then(paletteData => console.log('paletteData', paletteData)
-)
+      .then(paletteData => console.log('paletteData', paletteData)) 
   })
-  // return Promise.all(projectsIds)
 }
+
+function postProjectToDb(newProject) {
+  console.log('name', newProject);
+  
+  const url = 'http://localhost:3000/api/v1/projects/';
+  return fetch(url, {
+      method: 'POST',
+      body: JSON.stringify({project_name: newProject}),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+    .then(response => response.json())
+    .catch(function (error) {
+      console.log(error.messege)
+    });
+};
+
+function postPaletteToDb(data) {
+  const url = 'http://localhost:3000/api/v1/palettes/';
+  return fetch(url, {
+    method: 'POST',
+    body: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+  .then(response => response.json())
+  .catch(function(error) {
+    console.log(error.messege)
+  });
+}
+
+function requestIdFromProject() {
+
+}
+
