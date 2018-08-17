@@ -42,7 +42,7 @@ $('.new-project-form').on('submit', saveNewProject);
 
 
 createPalette();
-projectRequest();
+// projectRequest();
 // paletteRequest();
 
 function createPalette() {
@@ -74,19 +74,26 @@ function hexCodes() {
 
 function saveColorPalette(e) {
   e.preventDefault();
+  const projectName = $(e.target).children('select').val();
   const newPaletteName = $(e.target).children('.new-palette-input').val();
   const colors = hexCodes()
-  const data = {
-    palette_name: newPaletteName,
-    color_1: colors[0],
-    color_2: colors[1], 
-    color_3: colors[2], 
-    color_4: colors[3], 
-    color_5: colors[4],
-    project_id: 1
-  }
-  postPaletteToDb(data);
-  console.log('data', data);
+  console.log(projectName);
+  
+  projectRequestByName(projectName).then((projectNameData) => {
+    console.log(projectNameData)
+    const id = projectNameData[0].id
+    const data = {
+      palette_name: newPaletteName,
+      color_1: colors[0],
+      color_2: colors[1], 
+      color_3: colors[2], 
+      color_4: colors[3], 
+      color_5: colors[4],
+      project_id: id
+    }
+    postPaletteToDb(data);
+    console.log('data', data);
+  })
   
   // $('project-container').append(`<div>${newPalette}</div>`)
 }
@@ -94,18 +101,17 @@ function saveColorPalette(e) {
 function saveNewProject(e) {
   e.preventDefault();
   let newProject = $(e.target).find('.new-project-input').val();
-  $('select').append(`<option value="project1">${newProject}</option>`)
+  $('select').append(`<option value=${newProject}>${newProject}</option>`)
   $('.project-container').append(`<div><h2>${newProject}</h2></div>`)
   $('.new-project-input').val('');
   postProjectToDb(newProject);
-  
 }
 
 function displayProjects(projectData, paletteData) {
   console.log(projectData);
   const displayProjects = projectData.map(project => {
     console.log('project', project);
-    const fetchPalletes = paletteRequestId(project.id)
+    // const fetchPalletes = paletteRequestId(project.id)
     console.log(fetchPalletes)
     // $('.project-container').append(`<div><h2>${project.project_name}</h2></div>`);
   })
@@ -118,11 +124,18 @@ function displayProjects(projectData, paletteData) {
 
 //  ! })
 
-function projectRequest() {
-  const url = `http://localhost:3000/api/v1/projects/`
+// function projectRequest() {
+//   const url = 'http://localhost:3000/api/v1/projects/'
+//   return fetch(url)
+//     .then(response => response.json())
+//     .then(projectData => paletteRequestId(projectData))
+// }
+
+function projectRequestByName(projectName) {
+  const url = `http://localhost:3000/api/v1/projects/${projectName}`
   return fetch(url)
     .then(response => response.json())
-    .then(projectData => paletteRequestId(projectData))
+    .catch(error => console.log(error))     
 }
 
 // function projectRequestId(id) {
@@ -132,22 +145,21 @@ function projectRequest() {
 //     .then(projectIdData => displayProjects(projectIdData))
 // }
 
-function paletteRequestId(projectData) {
-  console.log(projectData);
-  const projectIds = projectData.map(project => {
-    console.log(project.id);
-    const url = `http://localhost:3000/api/v1/palettes/${project.id}`
-    return fetch(url)
-      .then(response => response.json())
-      .then(paletteData => console.log('paletteData', paletteData)) 
-  })
-}
+// function paletteRequestId(projectData) {
+//   console.log(projectData);
+//   const projectIds = projectData.map(project => {
+//     console.log(project.id);
+//     const url = `http://localhost:3000/api/v1/palettes/${project.id}`
+//     return fetch(url)
+//       .then(response => response.json())
+//       .then(paletteData => console.log('paletteData', paletteData)) 
+//   })
+// }
 
 function postProjectToDb(newProject) {
   console.log('name', newProject);
-  
   const url = 'http://localhost:3000/api/v1/projects/';
-  return fetch(url, {
+  fetch(url, {
       method: 'POST',
       body: JSON.stringify({project_name: newProject}),
       headers: {
@@ -170,6 +182,7 @@ function postPaletteToDb(data) {
     }
   })
   .then(response => response.json())
+  console.log(response)
   .catch(function(error) {
     console.log(error.messege)
   });
