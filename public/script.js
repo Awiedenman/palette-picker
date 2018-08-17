@@ -118,17 +118,16 @@ function displayProjectsOnLoad(projectData) {
 function appendPalettes(paletteSwatches, project_name) {
   console.log('paletteSwatches', paletteSwatches);
   paletteSwatches.forEach(swatch => {
-    $('select').append(`<option value=${project_name}>${project_name}</option>`)
+    // $('select').append(`<option value=${project_name}>${project_name}</option>`)
     $('.project-container').append(`
       <div class="saved-palette">
-        <h2>${project_name}</h2>
-          <div title=${swatch.palette_name}>
-            <div class="saved-palette-color color1" style='background-color:${swatch.color_1}'></div>
-            <div class="saved-palette-color color2" style='background-color:${swatch.color_2}'></div>
-            <div class="saved-palette-color color3" style='background-color:${swatch.color_3}'></div>
-            <div class="saved-palette-color color4" style='background-color:${swatch.color_4}'></div>
-            <div class="saved-palette-color color5" style='background-color:${swatch.color_5}'></div>
-          </div>
+        <div title=${swatch.palette_name}>
+          <div class="saved-palette-color color1" style='background-color:${swatch.color_1}'>${swatch.color_1}</div>
+          <div class="saved-palette-color color2" style='background-color:${swatch.color_2}'>${swatch.color_2}</div>
+          <div class="saved-palette-color color3" style='background-color:${swatch.color_3}'>${swatch.color_3}</div>
+          <div class="saved-palette-color color4" style='background-color:${swatch.color_4}'>${swatch.color_4}</div>
+          <div class="saved-palette-color color5" style='background-color:${swatch.color_5}'>${swatch.color_5}</div>
+        </div>
       </div>
     `)
   })
