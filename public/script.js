@@ -43,7 +43,6 @@ $('.new-project-form').on('submit', saveNewProject);
 
 createPalette();
 projectRequest();
-// paletteRequest();
 
 function createPalette() {
   palette.populateColors()
