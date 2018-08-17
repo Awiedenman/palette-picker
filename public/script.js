@@ -31,7 +31,7 @@ class Palette {
     // })
   }
 }
-
+// ==================
 
 let palette = new Palette(); 
 
@@ -43,7 +43,7 @@ $('.new-project-form').on('submit', saveNewProject);
 
 createPalette();
 projectRequest();
-paletteRequest();
+// paletteRequest();
 
 function createPalette() {
   palette.populateColors()
@@ -54,7 +54,6 @@ function assignRandomColors(e) {
     const paletteColors = palette.colors;
     for (let i = 0; i < 5; i++) {
       $(`.hex-${i}`).text(paletteColors[i].color);
-      // console.log(paletteColor);
       $(`.palette-color-${i}`).css('backgroundColor', `${paletteColors[i].color}`);
     }
   }
@@ -77,7 +76,6 @@ function saveColorPalette(e) {
   const projectName = $(e.target).children('select').val();
   const newPaletteName = $(e.target).children('.new-palette-input').val();
   const colors = hexCodes()
-  console.log(projectName);
   
   projectRequestByName(projectName).then((projectNameData) => {
     console.log(projectNameData)
@@ -94,8 +92,6 @@ function saveColorPalette(e) {
     postPaletteToDb(data);
     $(e.target).children('.new-palette-input').val('');
   })
-  
-  // $('project-container').append(`<div>${newPalette}</div>`)
 }
 
 function saveNewProject(e) {
@@ -107,34 +103,45 @@ function saveNewProject(e) {
   postProjectToDb(newProject);
 }
 
-// function displayProjects(projectData, paletteData) {
-//   console.log(projectData);
-//   const displayProjects = projectData.map(project => {
-//     console.log('project', project);
-//     // const fetchPalletes = paletteRequestId(project.id)
-//     console.log(fetchPalletes)
-//     // $('.project-container').append(`<div><h2>${project.project_name}</h2></div>`);
-//   })
-// }
-
-function displayProjectsOnLoad(projectData, paletteData) {
+function displayProjectsOnLoad(projectData) {
   console.log('projectData', projectData)
-  console.log('paletteData', paletteData)
-  const dropDown = projectData.map(project => {
-    $('select').append(`<option value=${project.project_name}>${project.project_name}</option>`)
-      $('.project-container').append(`
-      <div class="saved-palette">
-        <h2>${project.project_name}</h2>
-        <div class="saved-palette-color color1">${projectData.color_1}</div>
-        <div class="saved-palette-color color2"></div>
-        <div class="saved-palette-color color3"></div>
-        <div class="saved-palette-color color4"></div>
-        <div class="saved-palette-color color5"></div>
-      </div>
-      `)
+  const paletteSwatches = projectData.map(project => {
+    paletteRequestId(project.id)
+    .then(response => {
+      if (paletteSwatches){
+        appendPalettes(response, project.project_name)
+      }
+    })
   })
-} 
+}
 
+function appendPalettes(paletteSwatches, project_name) {
+  console.log('paletteSwatches', paletteSwatches);
+  paletteSwatches.forEach(swatch => {
+    $('select').append(`<option value=${project_name}>${project_name}</option>`)
+    $('.project-container').append(`
+      <div class="saved-palette">
+        <h2>${project_name}</h2>
+          <div name=${swatch.palette_name}>
+            <div class="saved-palette-color color1" style='background-color:${swatch.color_1}'></div>
+            <div class="saved-palette-color color2" style='background-color:${swatch.color_2}'></div>
+            <div class="saved-palette-color color3" style='background-color:${swatch.color_3}'></div>
+            <div class="saved-palette-color color4" style='background-color:${swatch.color_4}'></div>
+            <div class="saved-palette-color color5" style='background-color:${swatch.color_5}'></div>
+          </div>
+      </div>
+    `)
+  })
+}
+      
+function paletteRequestId(projectId) {
+  const url = `http://localhost:3000/api/v1/palettes/${projectId}`
+  // console.log('projectId', projectId);
+  return fetch(url)
+    .then(response => response.json())
+    .catch(error => console.log(error))
+}
+  
 function projectRequest() {
   const url = 'http://localhost:3000/api/v1/projects/'
   return fetch(url)
@@ -142,12 +149,12 @@ function projectRequest() {
     .then(projectData => displayProjectsOnLoad(projectData))
 }
 
-function paletteRequest() {
-  const url = 'http://localhost:3000/api/v1/palettes/'
-  return fetch(url)
-    .then(response => response.json())
-    .then(paletteData => displayProjectsOnLoad(paletteData))
-}
+// function paletteRequest() {
+//   const url = 'http://localhost:3000/api/v1/palettes/'
+//   return fetch(url)
+//     .then(response => response.json())
+//     .then(paletteData => displayProjectsOnLoad(null, paletteData))
+// }
 
 function projectRequestByName(projectName) {
   const url = `http://localhost:3000/api/v1/projects/${projectName}`
@@ -161,17 +168,6 @@ function projectRequestByName(projectName) {
 //   return fetch(url)
 //     .then(response => response.json())
 //     .then(projectIdData => displayProjects(projectIdData))
-// }
-
-// function paletteRequestId(projectData) {
-//   console.log(projectData);
-//   const projectIds = projectData.map(project => {
-//     console.log(project.id);
-//     const url = `http://localhost:3000/api/v1/palettes/${project.id}`
-//     return fetch(url)
-//       .then(response => response.json())
-//       .then(paletteData => console.log('paletteData', paletteData)) 
-//   })
 // }
 
 function postProjectToDb(newProject) {
@@ -206,7 +202,4 @@ function postPaletteToDb(data) {
   });
 }
 
-function requestIdFromProject() {
-
-}
 
