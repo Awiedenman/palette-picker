@@ -91,6 +91,7 @@ function saveColorPalette(e) {
     }
     postPaletteToDb(data);
     $(e.target).children('.new-palette-input').val('');
+    appendPalettes([data], projectName)
   })
 }
 
@@ -122,7 +123,7 @@ function appendPalettes(paletteSwatches, project_name) {
     $('.project-container').append(`
       <div class="saved-palette">
         <h2>${project_name}</h2>
-          <div name=${swatch.palette_name}>
+          <div title=${swatch.palette_name}>
             <div class="saved-palette-color color1" style='background-color:${swatch.color_1}'></div>
             <div class="saved-palette-color color2" style='background-color:${swatch.color_2}'></div>
             <div class="saved-palette-color color3" style='background-color:${swatch.color_3}'></div>
