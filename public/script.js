@@ -102,27 +102,37 @@ function saveNewProject(e) {
   e.preventDefault();
   let newProject = $(e.target).find('.new-project-input').val();
   $('select').append(`<option value=${newProject}>${newProject}</option>`)
-  $('.project-container').append(`<div><h2>${newProject}</h2></div>`)
+  $('.project-container').append(`<div class="saved-palette"><h2>${newProject}</h2></div>`)
   $('.new-project-input').val('');
   postProjectToDb(newProject);
 }
 
-function displayProjects(projectData, paletteData) {
-  console.log(projectData);
-  const displayProjects = projectData.map(project => {
-    console.log('project', project);
-    // const fetchPalletes = paletteRequestId(project.id)
-    console.log(fetchPalletes)
-    // $('.project-container').append(`<div><h2>${project.project_name}</h2></div>`);
-  })
-}
+// function displayProjects(projectData, paletteData) {
+//   console.log(projectData);
+//   const displayProjects = projectData.map(project => {
+//     console.log('project', project);
+//     // const fetchPalletes = paletteRequestId(project.id)
+//     console.log(fetchPalletes)
+//     // $('.project-container').append(`<div><h2>${project.project_name}</h2></div>`);
+//   })
+// }
 
-function displayProjectsOnLoad(projectData) {
+function displayProjectsOnLoad(projectData, paletteData) {
   console.log('projectData', projectData)
+  console.log('paletteData', paletteData)
   const dropDown = projectData.map(project => {
     $('select').append(`<option value=${project.project_name}>${project.project_name}</option>`)
+      $('.project-container').append(`
+      <div class="saved-palette">
+        <h2>${project.project_name}</h2>
+        <div class="saved-palette-color color1">${projectData.color_1}</div>
+        <div class="saved-palette-color color2"></div>
+        <div class="saved-palette-color color3"></div>
+        <div class="saved-palette-color color4"></div>
+        <div class="saved-palette-color color5"></div>
+      </div>
+      `)
   })
-  
 } 
 
 function projectRequest() {
@@ -136,7 +146,7 @@ function paletteRequest() {
   const url = 'http://localhost:3000/api/v1/palettes/'
   return fetch(url)
     .then(response => response.json())
-    .then(projectData => console.log(projectData))
+    .then(paletteData => displayProjectsOnLoad(paletteData))
 }
 
 function projectRequestByName(projectName) {

@@ -24,7 +24,7 @@ app.get('/api/v1/projects/:project_name', (request, response) => {
         response.status(200).json(projects);
       } else {
         response.status(404).json({
-          error: `Could not find projects with name ${request.params.project_name} fuck you, dummy`
+          error: `Could not find projects with name ${request.params.project_name}`
         });
       }
     })
@@ -45,7 +45,7 @@ app.get('/api/v1/projects/', (request, response) => {
   })
 })
 
-app.get('/api/v1/palettes', (request, response) => {
+app.get('/api/v1/palettes/', (request, response) => {
   database('palettes').select()
   .then((palettes) => {
     response.status(200).json(palettes);
@@ -55,14 +55,14 @@ app.get('/api/v1/palettes', (request, response) => {
   })
 })
 
-app.post('/api/v1/projects', (request, response) => {
+app.post('/api/v1/projects/', (request, response) => {
   const project = request.body;
   
   for (let requiredParameter of ['project_name']){
     if (!project[requiredParameter]) {
       return response
         .status(422)
-        .send({error: `Expected format: { project_name: <STRING>} You're missing a "${requiredParameter}" property.`});
+        .send({error: `Expected format: {project_name: <STRING>} You're missing a "${requiredParameter}" property.`});
     }
   }
 
@@ -75,7 +75,7 @@ database('projects').insert(project, 'id')
   })
 });
 
-  app.post('/api/v1/palettes', (request, response) => {
+  app.post('/api/v1/palettes/', (request, response) => {
   const palette = request.body;
   
   for (let requiredParameter of ['palette_name', 'color_1', 'color_2', 'color_3', 'color_4', 'color_5', 'project_id']) {
