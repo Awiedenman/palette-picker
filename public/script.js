@@ -42,8 +42,8 @@ $('.new-project-form').on('submit', saveNewProject);
 
 
 createPalette();
-// projectRequest();
-// paletteRequest();
+projectRequest();
+paletteRequest();
 
 function createPalette() {
   palette.populateColors()
@@ -117,19 +117,27 @@ function displayProjects(projectData, paletteData) {
   })
 }
 
-// !function displayPalettesOnPageLoad(projectData, paletteData) {
-//   !console.log(paletteData);
-//   !const displayPalettes = paletteData.filter(palette => {
-//     // $('.project-container').append(`<div><h2>${project.project_name}</h2></div>`);
+function displayProjectsOnLoad(projectData) {
+  console.log('projectData', projectData)
+  const dropDown = projectData.map(project => {
+    $('select').append(`<option value=${project.project_name}>${project.project_name}</option>`)
+  })
+  
+} 
 
-//  ! })
+function projectRequest() {
+  const url = 'http://localhost:3000/api/v1/projects/'
+  return fetch(url)
+    .then(response => response.json())
+    .then(projectData => displayProjectsOnLoad(projectData))
+}
 
-// function projectRequest() {
-//   const url = 'http://localhost:3000/api/v1/projects/'
-//   return fetch(url)
-//     .then(response => response.json())
-//     .then(projectData => paletteRequestId(projectData))
-// }
+function paletteRequest() {
+  const url = 'http://localhost:3000/api/v1/palettes/'
+  return fetch(url)
+    .then(response => response.json())
+    .then(projectData => console.log(projectData))
+}
 
 function projectRequestByName(projectName) {
   const url = `http://localhost:3000/api/v1/projects/${projectName}`
