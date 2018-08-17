@@ -135,7 +135,7 @@ function appendPalettes(paletteSwatches, project_name) {
 }
       
 function paletteRequestId(projectId) {
-  const url = `http://localhost:3000/api/v1/palettes/${projectId}`
+  const url = `/api/v1/palettes/${projectId}`
   // console.log('projectId', projectId);
   return fetch(url)
     .then(response => response.json())
@@ -143,28 +143,28 @@ function paletteRequestId(projectId) {
 }
   
 function projectRequest() {
-  const url = 'http://localhost:3000/api/v1/projects/'
+  const url = '/api/v1/projects/'
   return fetch(url)
     .then(response => response.json())
     .then(projectData => displayProjectsOnLoad(projectData))
 }
 
 // function paletteRequest() {
-//   const url = 'http://localhost:3000/api/v1/palettes/'
+//   const url = '/api/v1/palettes/'
 //   return fetch(url)
 //     .then(response => response.json())
 //     .then(paletteData => displayProjectsOnLoad(null, paletteData))
 // }
 
 function projectRequestByName(projectName) {
-  const url = `http://localhost:3000/api/v1/projects/${projectName}`
+  const url = `/api/v1/projects/${projectName}`
   return fetch(url)
     .then(response => response.json())
     .catch(error => console.log(error))     
 }
 
 // function projectRequestId(id) {
-//   const url = `http://localhost:3000/api/v1/projects/${id}`
+//   const url = `/api/v1/projects/${id}`
 //   return fetch(url)
 //     .then(response => response.json())
 //     .then(projectIdData => displayProjects(projectIdData))
@@ -172,7 +172,7 @@ function projectRequestByName(projectName) {
 
 function postProjectToDb(newProject) {
   console.log('name', newProject);
-  const url = 'http://localhost:3000/api/v1/projects/';
+  const url = '/api/v1/projects/';
   fetch(url, {
       method: 'POST',
       body: JSON.stringify({project_name: newProject}),
@@ -187,7 +187,7 @@ function postProjectToDb(newProject) {
 };
 
 function postPaletteToDb(data) {
-  const url = 'http://localhost:3000/api/v1/palettes/';
+  const url = '/api/v1/palettes/';
   return fetch(url, {
     method: 'POST',
     body: JSON.stringify(data),
