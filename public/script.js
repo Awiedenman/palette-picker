@@ -36,7 +36,7 @@ class Palette {
 let palette = new Palette(); 
 
 $(".palette-generate-button").on("click", createPalette);
-$('.locked-btn').on('click', toggleLock)
+$('.unlocked-btn').on('click', toggleLock)
 $('.new-palette-form').on('submit', saveColorPalette);
 $('.new-project-form').on('submit', saveNewProject);
 
@@ -59,7 +59,10 @@ function assignRandomColors(e) {
 
 function toggleLock(e) {
   const id = e.target.id;
-  palette.colorLock(id)
+  palette.colorLock(id);
+  $(e.target).closest('div').toggleClass('locked unlocked-btn');
+  // $('.lockedBtn').addClass('.locked');
+
 }
 
 function hexCodes() {

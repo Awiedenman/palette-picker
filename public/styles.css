@@ -30,11 +30,31 @@
   text-align: center;
 }
 
-.locked-btn {
+
+.unlocked-btn {
   background-image: url("./images/unlock.svg");
-  height: 20px;
-  width: 20px;
+  height: 30px;
+  width: 30px;
 }
+
+.unlocked-btn:hover {
+  background-image: url("./images/unlock.svg");
+  height: 40px;
+  width: 40px;
+}
+
+.locked {
+  background-image: url("./images/lock.svg");
+  height: 30px;
+  width: 30px;
+}
+
+.locked:hover {
+  background-image: url("./images/lock.svg");
+  height: 40px;
+  width: 40px;
+}
+
 .saved-palette-color {
   display: inline-block;
   border: black solid 2px;
@@ -42,8 +62,6 @@
   width: 60px;
   padding: 10px 10px 10px 10px;
 }
-
-.saved-palette {}
 
 .trash-icon {
   display: inline-block;
