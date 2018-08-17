@@ -33,7 +33,6 @@ class Palette {
 }
 
 
-
 let palette = new Palette(); 
 
 $(".palette-generate-button").on("click", createPalette);
@@ -43,6 +42,8 @@ $('.new-project-form').on('submit', saveNewProject);
 
 
 createPalette();
+// projectRequest();
+// paletteRequest();
 
 function createPalette() {
   palette.populateColors()
@@ -63,16 +64,131 @@ function toggleLock(e) {
   palette.colorLock(id)
 }
 
+function hexCodes() {
+  hexCodeColors = [];
+  $('.box h3').each(function(index, box){
+    hexCodeColors.push(box.innerText);
+  })
+  return hexCodeColors
+}
+
 function saveColorPalette(e) {
   e.preventDefault();
-  const newPalette = $(e.target).children('.new-palette-input').val();
-  $('project-container').append(`<div>${newPalette}</div>`)
+  const projectName = $(e.target).children('select').val();
+  const newPaletteName = $(e.target).children('.new-palette-input').val();
+  const colors = hexCodes()
+  console.log(projectName);
+  
+  projectRequestByName(projectName).then((projectNameData) => {
+    console.log(projectNameData)
+    const id = projectNameData[0].id
+    const data = {
+      palette_name: newPaletteName,
+      color_1: colors[0],
+      color_2: colors[1], 
+      color_3: colors[2], 
+      color_4: colors[3], 
+      color_5: colors[4],
+      project_id: id
+    }
+    postPaletteToDb(data);
+    console.log('data', data);
+  })
+  
+  // $('project-container').append(`<div>${newPalette}</div>`)
 }
 
 function saveNewProject(e) {
   e.preventDefault();
   let newProject = $(e.target).find('.new-project-input').val();
-  $('select').append(`<option value="project1">${newProject}</option>`)
+  $('select').append(`<option value=${newProject}>${newProject}</option>`)
   $('.project-container').append(`<div><h2>${newProject}</h2></div>`)
   $('.new-project-input').val('');
+  postProjectToDb(newProject);
 }
+
+function displayProjects(projectData, paletteData) {
+  console.log(projectData);
+  const displayProjects = projectData.map(project => {
+    console.log('project', project);
+    // const fetchPalletes = paletteRequestId(project.id)
+    console.log(fetchPalletes)
+    // $('.project-container').append(`<div><h2>${project.project_name}</h2></div>`);
+  })
+}
+
+// !function displayPalettesOnPageLoad(projectData, paletteData) {
+//   !console.log(paletteData);
+//   !const displayPalettes = paletteData.filter(palette => {
+//     // $('.project-container').append(`<div><h2>${project.project_name}</h2></div>`);
+
+//  ! })
+
+// function projectRequest() {
+//   const url = 'http://localhost:3000/api/v1/projects/'
+//   return fetch(url)
+//     .then(response => response.json())
+//     .then(projectData => paletteRequestId(projectData))
+// }
+
+function projectRequestByName(projectName) {
+  const url = `http://localhost:3000/api/v1/projects/${projectName}`
+  return fetch(url)
+    .then(response => response.json())
+    .catch(error => console.log(error))     
+}
+
+// function projectRequestId(id) {
+//   const url = `http://localhost:3000/api/v1/projects/${id}`
+//   return fetch(url)
+//     .then(response => response.json())
+//     .then(projectIdData => displayProjects(projectIdData))
+// }
+
+// function paletteRequestId(projectData) {
+//   console.log(projectData);
+//   const projectIds = projectData.map(project => {
+//     console.log(project.id);
+//     const url = `http://localhost:3000/api/v1/palettes/${project.id}`
+//     return fetch(url)
+//       .then(response => response.json())
+//       .then(paletteData => console.log('paletteData', paletteData)) 
+//   })
+// }
+
+function postProjectToDb(newProject) {
+  console.log('name', newProject);
+  const url = 'http://localhost:3000/api/v1/projects/';
+  fetch(url, {
+      method: 'POST',
+      body: JSON.stringify({project_name: newProject}),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+    .then(response => response.json())
+    .catch(function (error) {
+      console.log(error.messege)
+    });
+};
+
+function postPaletteToDb(data) {
+  const url = 'http://localhost:3000/api/v1/palettes/';
+  return fetch(url, {
+    method: 'POST',
+    body: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+  .then(response => response.json())
+  console.log(response)
+  .catch(function(error) {
+    console.log(error.messege)
+  });
+}
+
+function requestIdFromProject() {
+
+}
+

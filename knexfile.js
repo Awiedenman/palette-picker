@@ -1,14 +1,16 @@
+// Update with your config settings.
+
 module.exports = {
 
   development: {
-    client: 'pg',
+    client: 'pg', 
     connection: 'postgres://localhost/palette_picker',
     migrations: {
-      directory: './migrations'
+      directory: './db/migrations'
     },
     seeds: {
-      directory: './seeds/dev'
+      directory: './db/seeds/dev'
     },
-    useNullAsDefault: true
+    useNullAsDefault: true,
   }
-}
+};
