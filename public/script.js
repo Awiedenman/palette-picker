@@ -92,7 +92,7 @@ function saveColorPalette(e) {
       project_id: id
     }
     postPaletteToDb(data);
-    console.log('data', data);
+    $(e.target).children('.new-palette-input').val('');
   })
   
   // $('project-container').append(`<div>${newPalette}</div>`)
