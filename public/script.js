@@ -119,13 +119,20 @@ function displayProjectsOnLoad(projectData) {
     })
   })
 }
+$('.project-container').on('click','.delete-btn', deletePalette);
+
+function deletePalette(e) {
+  const id = $(this).closest('.palette-container').attr('id');
+  console.log('id clicked', id);
+  deletePalettesById(id)
+}
 
 function appendPalettes(paletteSwatches) {
   console.log('paletteSwatches', paletteSwatches);
   paletteSwatches.forEach(swatch => {
     // $('select').append(`<option value=${project_name}>${project_name}</option>`)
     $('.project-container').append(`
-      <div>
+      <div class="palette-container" id="${swatch.palette_id}">
         <div class="saved-palette" title=${swatch.palette_name}>
         <h3>Palette Name: ${swatch.palette_name}</h3> 
           <div class="saved-palette-color color1" style='background-color:${swatch.color_1}'>${swatch.color_1}</div>
@@ -133,7 +140,7 @@ function appendPalettes(paletteSwatches) {
           <div class="saved-palette-color color3" style='background-color:${swatch.color_3}'>${swatch.color_3}</div>
           <div class="saved-palette-color color4" style='background-color:${swatch.color_4}'>${swatch.color_4}</div>
           <div class="saved-palette-color color5" style='background-color:${swatch.color_5}'>${swatch.color_5}</div>
-          <div class="trash-icon"></div>
+          <div class="delete-btn trash-icon"></div>
         </div>
       </div>
     `)
@@ -169,12 +176,17 @@ function projectRequestByName(projectName) {
     .catch(error => console.log(error))     
 }
 
-// function projectRequestId(id) {
-//   const url = `/api/v1/projects/${id}`
-//   return fetch(url)
-//     .then(response => response.json())
-//     .then(projectIdData => displayProjects(projectIdData))
-// }
+function deletePalettesById(id) {
+  const url = `/api/v1/palettes/${id}`;
+  console.log("deletePalettesById: " + id)
+  fetch(url, {
+    method: 'DELETE'
+  })
+    // .then(response => response.json())
+    // .then( () => console.log(response) ) 
+    // .catch(error => console.log(error))
+    // .then(projectIdData => displayProjects(projectIdData))
+}
 
 function postProjectToDb(newProject) {
   console.log('name', newProject);

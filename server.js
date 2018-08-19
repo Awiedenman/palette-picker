@@ -5,6 +5,8 @@ const environment = process.env.NODE_ENV || 'development';
 const configuration = require('./knexfile')[environment];
 const database = require('knex')(configuration);
 
+const util = require('util');
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -111,6 +113,14 @@ database('projects').insert(project, 'id')
       response.status(500).json({error});
   })
 });
+
+app.delete('/api/v1/palettes/:palette_id', (request, response) => {
+  const { palette_id } = request.params;
+  console.log("DELETE: " + palette_id);
+  database('palettes').where('palette_id', palette_id).del()
+  .then(response.sendStatus(202))
+  .catch(error => response.status(404).json({error}));  
+})
 
 app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on ${app.get('port')}.`)
