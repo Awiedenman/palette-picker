@@ -161,13 +161,6 @@ function projectRequest() {
     .then(projectData => displayProjectsOnLoad(projectData));
 }
 
-// function paletteRequest() {
-//   const url = '/api/v1/palettes/'
-//   return fetch(url)
-//     .then(response => response.json())
-//     .then(paletteData => displayProjectsOnLoad(null, paletteData))
-// }
-
 function projectRequestByName(projectName) {
   const url = `/api/v1/projects/${projectName}`;
   return fetch(url)
