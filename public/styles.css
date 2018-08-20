@@ -1,40 +1,98 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Montserrat', sans-serif;
+}
+
+body {
+  background: #efefef;
+  width: 100vw;
+}
+
+select {
+  height: 36px;
+  width: 80px;
+}
+
+header {
+  background-color: rgba(34, 30, 29, 0.938);
+}
+
+main {
+  background-color: rgba(216, 216, 216, 0.808);
+  padding: 30px 20px;
+}
+
 .main-title {
-  color: rgb(107, 95, 140)
+  height: 105px;
+  color: rgba(255, 255, 255, 0.808);
+  font-size: 50px;
+  margin: 0;
+  padding: 27px 20px;
+}
+
+.palette-icon {
+  height: 74px;
+  width: 82px;
+  background-image: url(./images/color-palette.svg);
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 17px;
+  right: 21px;
+}
+
+.hex {
+  text-align: center;
+  margin-top: 265px;
+  background-color: #efefefa6;
 }
 
 .box {
   display: inline-block;
-  height: 350px;
-  width: calc(20% - 10px);
-  border: 1px solid black;
+  height: 385px;
+  width: calc(23% - 32px);
   box-shadow: 1px 1px 1px 0.15px;
+}
+
+.palette {
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
 }
 
 .palette-generate-button {
   display: flex;
-  margin: 20px auto;
-  padding: 15px;
+  margin: 20px auto 35px;
+  padding: 13px 72px;
+}
+
+.new-palette-input {
+  height: 40PX;
+  width: 80%;
 }
 
 .new-palette-form {
-  display: flex;
-  justify-content: center;
-  padding: 30px;
+  display: block;
+  padding: 30px 30px 20px;
+  width: 50%;
+  margin: 0 auto;
 }
 
 .new-project-form {
   display: flex;
   justify-content: center;
-  padding: 30px;
+  padding: 45px 30px 30px 30px;
   border-top: 5px solid #000;
   text-align: center;
 }
 
-
 .unlocked-btn {
   background-image: url("./images/unlock.svg");
+  margin: 18px auto;
   height: 30px;
   width: 30px;
+  padding-bottom: 20px;
 }
 
 .unlocked-btn:hover {
@@ -45,8 +103,10 @@
 
 .locked {
   background-image: url("./images/lock.svg");
+  margin: 18px auto;
   height: 30px;
   width: 30px;
+  padding-bottom: 20px;
 }
 
 .locked:hover {
@@ -55,12 +115,58 @@
   width: 40px;
 }
 
+.palette-container {
+  background: #fff;
+  padding: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, .1);
+  width: 100%;
+}
+
+h2 {
+  font-size: 30px;
+}
+
+h3 {
+  width: 100%;
+  padding: 10px;
+}
+
+.save-palette-container {
+  width: 285px;
+  margin: 0 auto;
+}
+
+.saved-palette {
+  position: relative;
+  margin: 0 auto;
+  height: 130px;
+  width: 100%;
+  border: 1px black solid;
+  padding: 10px;
+}
+
+.save-palette {
+  border-radius: 20px;
+  width: 80%;
+  height: 38px;
+  margin: 10px 0 0 44px;
+}
+
 .saved-palette-color {
   display: inline-block;
   border: black solid 2px;
   height: 60px;
   width: 60px;
   padding: 10px 10px 10px 10px;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 60px;
+  color: transparent;
+  transition: 0.5s ease;
+}
+
+.saved-palette-color:hover {
+  color: black;
 }
 
 .trash-icon {
@@ -79,7 +185,35 @@
   background-image: url(./images/hover-close-button.svg);
 }
 
+.delete-btn {
+  position: absolute;
+  bottom: 31px;
+  height: 30px;
+  width: 30px;
+}
+
 .page-container {
   display: flex;
   flex-wrap: wrap;
+}
+
+.project-container {
+  width: 600px;
+  max-width: 100%;
+  margin: auto;
+}
+
+.new-project-btn {
+  width: 84px;
+  padding: 4px;
+}
+
+.new-project-input {
+  width: 275px;
+  padding: 4px;
+}
+
+label {
+  font-size: 20px;
+  /* font-weight: bolder; */
 }

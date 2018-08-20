@@ -111,11 +111,9 @@ function displayProjectsOnLoad(projectData) {
   const paletteSwatches = projectData.map(project => {
     paletteRequestId(project.id)
     .then(response => {
-      if (paletteSwatches){
         $('.project-container').append(`<div class="saved-project"><h2>Project Name: ${project.project_name}</h2></div>`)
         $('select').append(`<option value=${project.project_name}>${project.project_name}</option>`)        
         appendPalettes(response)
-      }
     })
   })
 }
@@ -123,14 +121,13 @@ $('.project-container').on('click','.delete-btn', deletePalette);
 
 function deletePalette(e) {
   const id = $(this).closest('.palette-container').attr('id');
-  console.log('id clicked', id);
   deletePalettesById(id)
+  $(this).closest('.palette-container').remove();
 }
 
 function appendPalettes(paletteSwatches) {
-  console.log('paletteSwatches', paletteSwatches);
-  paletteSwatches.forEach(swatch => {
-    // $('select').append(`<option value=${project_name}>${project_name}</option>`)
+ if (paletteSwatches.length){
+   paletteSwatches.forEach(swatch => {
     $('.project-container').append(`
       <div class="palette-container" id="${swatch.palette_id}">
         <div class="saved-palette" title=${swatch.palette_name}>
@@ -146,10 +143,10 @@ function appendPalettes(paletteSwatches) {
     `)
   })
 }
+}
       
 function paletteRequestId(projectId) {
   const url = `/api/v1/palettes/${projectId}`
-  // console.log('projectId', projectId);
   return fetch(url)
     .then(response => response.json())
     .catch(error => console.log(error))
@@ -173,19 +170,15 @@ function projectRequestByName(projectName) {
   const url = `/api/v1/projects/${projectName}`
   return fetch(url)
     .then(response => response.json())
-    .catch(error => console.log(error))     
+    .catch(error => 
+      console.log(error.message))     
 }
 
 function deletePalettesById(id) {
   const url = `/api/v1/palettes/${id}`;
-  console.log("deletePalettesById: " + id)
   fetch(url, {
     method: 'DELETE'
   })
-    // .then(response => response.json())
-    // .then( () => console.log(response) ) 
-    // .catch(error => console.log(error))
-    // .then(projectIdData => displayProjects(projectIdData))
 }
 
 function postProjectToDb(newProject) {
