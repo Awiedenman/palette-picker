@@ -65,11 +65,20 @@ main {
   display: flex;
   margin: 20px auto 35px;
   padding: 13px 72px;
+  border: none;
+  border-radius: 15px;
+  background-color: #beb2b2de;
+  
+}
+
+.palette-generate-button:hover {
+  background-color: #796e6e88;
 }
 
 .new-palette-input {
   height: 40PX;
   width: 80%;
+  padding-left: 10px;
 }
 
 .new-palette-form {
@@ -124,11 +133,12 @@ main {
 
 h2 {
   font-size: 30px;
+  margin: 10px;
 }
 
 h3 {
   width: 100%;
-  padding: 10px;
+  padding: 10px 10px 10px 0;
 }
 
 .save-palette-container {
@@ -146,17 +156,22 @@ h3 {
 }
 
 .save-palette {
-  border-radius: 20px;
+  border-radius: 15px;
   width: 80%;
   height: 38px;
   margin: 10px 0 0 44px;
+  background-color: #beb2b2de
+}
+
+.save-palette:hover {
+  background-color: #796e6e88
 }
 
 .saved-palette-color {
   display: inline-block;
   border: black solid 2px;
   height: 60px;
-  width: 60px;
+  width: 90px;
   padding: 10px 10px 10px 10px;
   text-align: center;
   vertical-align: middle;
@@ -187,9 +202,10 @@ h3 {
 
 .delete-btn {
   position: absolute;
-  bottom: 31px;
+  bottom: 75px;
   height: 30px;
   width: 30px;
+  right: 26px;
 }
 
 .page-container {
@@ -215,5 +231,4 @@ h3 {
 
 label {
   font-size: 20px;
-  /* font-weight: bolder; */
 }
