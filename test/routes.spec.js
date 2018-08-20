@@ -31,23 +31,23 @@ describe('api routes', () => {
         });
     })
   })
+      describe('GET api/v1/palettes/:id', () => {
+        it('should return a single palette', done => {
+          chai.request(server)
+            .get('/api/v1/palettes/1')
+            .end(function (err, response) {
+              response.should.have.status(200);
+              response.should.be.json;
+              response.body[0].should.have.property('palette_id');
+              response.body[0].palette_id.should.equal(1);
+              response.body[0].should.have.property('palette_name');
+              response.body[0].palette_name.should.equal('garbage man');
+              response.body.should.be.a('array');
+    
+              done();
+            });
+        })
 
-  describe('GET api/v1/palettes/:id', () => {
-    it('should return a single palette', done => {
-      chai.request(server)
-        .get('/api/v1/palettes/1')
-        .end(function (err, response) {
-          response.should.have.status(200);
-          response.should.be.json;
-          response.body[0].should.have.property('palette_id');
-          response.body[0].palette_id.should.equal(1);
-          response.body[0].should.have.property('palette_name');
-          response.body[0].palette_name.should.equal('garbage man');
-          response.body.should.be.a('array');
-
-          done();
-        });
-    })
 
     it.skip('should return an error if id doesn\'t exist', done => {
       chai.request(server)
@@ -61,9 +61,8 @@ describe('api routes', () => {
         })
     })
   })
-})
-
-describe('GET api/v1/projects/:project_name', () => {
+  
+  describe.only('GET api/v1/projects/:project_name', () => {
   it('should return a single project', done => {
     chai.request(server)
       .get('/api/v1/projects/dirt')
@@ -72,27 +71,28 @@ describe('GET api/v1/projects/:project_name', () => {
         response.should.be.json;
         response.body[0].should.have.property('id');
         response.body[0].should.have.property('project_name');
-
+        
         done();
       });
-  })
-
-  it.skip('should return an error if project_name doesn\'t exist', done => {
-    chai.request(server)
+    })
+    
+    it('should return an error if project_name doesn\'t exist', done => {
+      chai.request(server)
       .get('/api/v1/palletes/dracula')
       .end((error, response) => {
         response.should.have.status(404);
-        response.should.be.json;
-        response.body.should.have.property('error');
-        response.body.error.should.equal('Could not find projects with name of dracula');
+        // response.error.text.should.equal('<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /api/v1/palletes/dracula</pre>\n</body>\n</html>\n')
+        // response.should.be.json;
+        // response.body.should.have.property('error');
+        // response.body.error.should.equal('Could not find projects with name of dracula');
         done();
       })
+    })
   })
-})
-
-describe('DELETE api/v1/palettes/:palette_id', () => {
-  it('should delete a single palette', done => {
-    chai.request(server)
+  
+  describe('DELETE api/v1/palettes/:palette_id', () => {
+    it('should delete a single palette', done => {
+      chai.request(server)
       .delete('/api/v1/palettes/1')
       .end(function (err, response) {
         response.should.have.status(202);
@@ -101,30 +101,28 @@ describe('DELETE api/v1/palettes/:palette_id', () => {
         // response.body[0].should.have.property('project_name');
         done();
       });
+    })
   })
-})
-
-describe('POST /api/v1/projects/', () => {
-  it('should post a single project', done => {
-    chai.request(server)
+  
+  describe('POST /api/v1/projects/', () => {
+    it('should post a single project', done => {
+      chai.request(server)
       .post('/api/v1/projects/')
       .send({
         project_name: 'dirt'
       })
-      .end(function (err, response) {
-        response.should.have.status(201);
-        response.should.be.json;
-        response.body[0].should.have.property('project_name');
-        // response.body[0].should.have.property('project_name');
-
-        done();
-      });
+      .then(res => {
+        console.log(res.body);
+        res.should.have.status(201)
+        // res.should.equal({id: 2})
+        done()
+      })
+    })
   })
-})
-
-describe('POST /api/v1/palettes/', () => {
-  it('should post a single palette', done => {
-    chai.request(server)
+  
+  describe('POST /api/v1/palettes/', () => {
+    it('should post a single palette', done => {
+      chai.request(server)
       .post('/api/v1/palettes/')
       .send({
         palette_name: 'garbage man',
@@ -140,8 +138,9 @@ describe('POST /api/v1/palettes/', () => {
         response.should.be.json;
         response.body[0].should.have.property('id');
         response.body[0].should.have.property('palette_name');
-
+        
         done();
       });
+    })
   })
 })

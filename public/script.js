@@ -23,23 +23,16 @@ class Palette {
   
   colorLock(id) {
     this.colors[id].locked = !this.colors[id].locked;
-    // $(`.palette-color-${id}`).style('background-image', 'url("./images/lock.svg")')
-    // $(`.palette-color-${id}`).click(function () {
-    //   $(`.palette-color-${id}`).css({
-    //     'background-image': url("./images/lock.svg"),
-    //   });
-    // })
   }
 }
-// ==================
 
 let palette = new Palette(); 
 
-$(".palette-generate-button").on("click", createPalette);
+$('.palette-generate-button').on('click', createPalette);
 $('.unlocked-btn').on('click', toggleLock)
 $('.new-palette-form').on('submit', saveColorPalette);
 $('.new-project-form').on('submit', saveNewProject);
-
+$('.project-container').on('click','.delete-btn', deletePalette);
 
 createPalette();
 projectRequest();
@@ -61,8 +54,6 @@ function toggleLock(e) {
   const id = e.target.id;
   palette.colorLock(id);
   $(e.target).closest('div').toggleClass('locked unlocked-btn');
-  // $('.lockedBtn').addClass('.locked');
-
 }
 
 function hexCodes() {
@@ -80,7 +71,6 @@ function saveColorPalette(e) {
   const colors = hexCodes()
   
   projectRequestByName(projectName).then((projectNameData) => {
-    console.log(projectNameData)
     const id = projectNameData[0].id
     const data = {
       palette_name: newPaletteName,
@@ -117,7 +107,6 @@ function displayProjectsOnLoad(projectData) {
     })
   })
 }
-$('.project-container').on('click','.delete-btn', deletePalette);
 
 function deletePalette(e) {
   const id = $(this).closest('.palette-container').attr('id');
@@ -126,7 +115,7 @@ function deletePalette(e) {
 }
 
 function appendPalettes(paletteSwatches) {
- if (paletteSwatches.length){
+//  if (paletteSwatches.length){
    paletteSwatches.forEach(swatch => {
     $('.project-container').append(`
       <div class="palette-container" id="${swatch.palette_id}">
@@ -143,7 +132,7 @@ function appendPalettes(paletteSwatches) {
     `)
   })
 }
-}
+// }
       
 function paletteRequestId(projectId) {
   const url = `/api/v1/palettes/${projectId}`

@@ -22,9 +22,9 @@ app.get('/api/v1/projects/:project_name', (request, response) => {
   database('projects').where('project_name', request.params.project_name).select()
     .then(projects => {
       if (projects.length) {
-        response.status(200).json(projects);
+        return response.status(200).json(projects);
       } else {
-        response.status(404).json({
+        return response.status(404).json({
           error: `Could not find projects with name ${request.params.project_name}`
         });
       }
@@ -33,8 +33,8 @@ app.get('/api/v1/projects/:project_name', (request, response) => {
       response.status(500).json({
         error
       })
-    })
-})
+    });
+});
 
 app.get('/api/v1/palettes/:project_id', (request, response) => {
   database('palettes').where('project_id', request.params.project_id).select()
@@ -51,13 +51,13 @@ app.get('/api/v1/palettes/:project_id', (request, response) => {
       response.status(500).json({
         error
       })
-    })
-})
+    });
+});
 
 app.get('/api/v1/projects/', (request, response) => {
   database('projects').select()
-  .then((projects) => {
-    response.status(200).json(projects);
+    .then((projects) => {
+      response.status(200).json(projects);
   })
   .catch((error)=> {
     response.status(500).json({error})
@@ -87,10 +87,10 @@ app.post('/api/v1/projects/', (request, response) => {
 
 database('projects').insert(project, 'id')
   .then(project => {
-    response.status(201).json({ id: project[0]})
+    return response.status(201).json({ id: project[0]})
   })
   .catch(error => {
-    response.status(500).json({error});
+   return response.status(500).json({error});
   })
 });
 
