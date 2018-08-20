@@ -22,7 +22,7 @@
   "scripts": {
     "test": "NODE_ENV=test mocha --exit",
     "start": "node server.js",
-    "eslint": "./node_modules/eslint/bin/eslint.js server.js"
+    "eslint": "./node_modules/eslint/bin/eslint.js server.js script.js"
   },
   "keywords": [],
   "author": "",
