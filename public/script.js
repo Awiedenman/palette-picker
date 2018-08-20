@@ -128,9 +128,9 @@ function deletePalette(e) {
 }
 
 function appendPalettes(paletteSwatches) {
-  //  if (paletteSwatches.length){
-  paletteSwatches.forEach(swatch => {
-    $('.project-container').append(`
+  if (paletteSwatches.length) {
+    paletteSwatches.forEach(swatch => {
+      $('.project-container').append(`
       <div class="palette-container" id="${swatch.palette_id}">
         <div class="saved-palette" title=${swatch.palette_name}>
         <h3>Palette Name: ${swatch.palette_name}</h3> 
@@ -143,9 +143,9 @@ function appendPalettes(paletteSwatches) {
         </div>
       </div>
     `);
-  });
+    });
+  }
 }
-// }
 
 function paletteRequestId(projectId) {
   const url = `/api/v1/palettes/${projectId}`;
@@ -177,7 +177,6 @@ function deletePalettesById(id) {
 }
 
 function postProjectToDb(newProject) {
-  console.log('name', newProject);
   const url = '/api/v1/projects/';
   fetch(url, {
     method: 'POST',
