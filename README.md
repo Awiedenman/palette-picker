@@ -4,5 +4,5 @@ Palette picker is an application that allows a user to generate random color pal
 
 You can download this repo [here](https://github.com/Awiedenman/palette-picker.git). 
 
-![Home page](./public/images/palette.png)
-![Home page](./public/images/palettes-in-folder.png)
+![Home page](./palette-picker/public/images/palette.png)
+![Home page](./palette-picker/public/images/palettes-in-folder.png)
