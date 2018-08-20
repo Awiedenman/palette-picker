@@ -8,41 +8,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="normalize.css" />    
     <link rel="stylesheet" type="text/css" media="screen" href="styles.css" />
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   </head>
   <body>
     <header>
       <h1 class="main-title">Palette Picker</h1>  
+      <div class="palette-icon"></div>
     </header>
     <main>
       <div class="palette">
         <div class="box palette-color-0">
-          <h3 class="hex-0"></h3>
+          <h3 class="hex hex-0"></h3>
           <div class="unlocked-btn" id="0"></div>
         </div>
         <div class="box palette-color-1">
-          <h3 class="hex-1"></h3>
+          <h3 class="hex hex-1"></h3>
           <div class="unlocked-btn" id="1"></div>
         </div>
         <div class="box palette-color-2">
-          <h3 class="hex-2"></h3>
+          <h3 class="hex hex-2"></h3>
           <div class="unlocked-btn" id="2"></div>
         </div>
         <div class="box palette-color-3">
-          <h3 class="hex-3"></h3>
+          <h3 class="hex hex-3"></h3>
           <div class="unlocked-btn" id="3"></div>
         </div>
         <div class="box palette-color-4">
-          <h3 class="hex-4"></h3>
+          <h3 class="hex hex-4"></h3>
           <div class="unlocked-btn" id="4"></div>
         </div> 
-        <button class="palette-generate-button">Generate New Palette</button>
       </div>
       <form class="new-palette-form">
+        <button class="palette-generate-button">Generate New Palette</button>
         <select name="projects">
         </select>
         <input class="new-palette-input" type="text" name="new-palette-name" placeholder="">
         <button class="save-palette">save palette</button>
       </form>
+      <!-- <div class="save-palette-container"> -->
+      <!-- </div> -->
     </main>
     <form class="new-project-form">
       <label for="new-project"> Create a project

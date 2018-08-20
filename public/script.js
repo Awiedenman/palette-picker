@@ -111,21 +111,25 @@ function displayProjectsOnLoad(projectData) {
   const paletteSwatches = projectData.map(project => {
     paletteRequestId(project.id)
     .then(response => {
-      if (paletteSwatches){
         $('.project-container').append(`<div class="saved-project"><h2>Project Name: ${project.project_name}</h2></div>`)
         $('select').append(`<option value=${project.project_name}>${project.project_name}</option>`)        
         appendPalettes(response)
-      }
     })
   })
 }
+$('.project-container').on('click','.delete-btn', deletePalette);
+
+function deletePalette(e) {
+  const id = $(this).closest('.palette-container').attr('id');
+  deletePalettesById(id)
+  $(this).closest('.palette-container').remove();
+}
 
 function appendPalettes(paletteSwatches) {
-  console.log('paletteSwatches', paletteSwatches);
-  paletteSwatches.forEach(swatch => {
-    // $('select').append(`<option value=${project_name}>${project_name}</option>`)
+ if (paletteSwatches.length){
+   paletteSwatches.forEach(swatch => {
     $('.project-container').append(`
-      <div>
+      <div class="palette-container" id="${swatch.palette_id}">
         <div class="saved-palette" title=${swatch.palette_name}>
         <h3>Palette Name: ${swatch.palette_name}</h3> 
           <div class="saved-palette-color color1" style='background-color:${swatch.color_1}'>${swatch.color_1}</div>
@@ -133,16 +137,16 @@ function appendPalettes(paletteSwatches) {
           <div class="saved-palette-color color3" style='background-color:${swatch.color_3}'>${swatch.color_3}</div>
           <div class="saved-palette-color color4" style='background-color:${swatch.color_4}'>${swatch.color_4}</div>
           <div class="saved-palette-color color5" style='background-color:${swatch.color_5}'>${swatch.color_5}</div>
-          <div class="trash-icon"></div>
+          <div class="delete-btn trash-icon"></div>
         </div>
       </div>
     `)
   })
 }
+}
       
 function paletteRequestId(projectId) {
   const url = `/api/v1/palettes/${projectId}`
-  // console.log('projectId', projectId);
   return fetch(url)
     .then(response => response.json())
     .catch(error => console.log(error))
@@ -166,15 +170,16 @@ function projectRequestByName(projectName) {
   const url = `/api/v1/projects/${projectName}`
   return fetch(url)
     .then(response => response.json())
-    .catch(error => console.log(error))     
+    .catch(error => 
+      console.log(error.message))     
 }
 
-// function projectRequestId(id) {
-//   const url = `/api/v1/projects/${id}`
-//   return fetch(url)
-//     .then(response => response.json())
-//     .then(projectIdData => displayProjects(projectIdData))
-// }
+function deletePalettesById(id) {
+  const url = `/api/v1/palettes/${id}`;
+  fetch(url, {
+    method: 'DELETE'
+  })
+}
 
 function postProjectToDb(newProject) {
   console.log('name', newProject);
