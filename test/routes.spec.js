@@ -31,6 +31,7 @@ describe('api routes', () => {
         });
     })
   })
+
   describe('GET api/v1/palettes/:id', () => {
     it('should return a single palette', done => {
       chai.request(server)
@@ -48,15 +49,14 @@ describe('api routes', () => {
         });
     })
 
-
-    it.skip('should return an error if id doesn\'t exist', done => {
+    it('should return an error if id doesn\'t exist', done => {
       chai.request(server)
         .get('/api/v1/palletes/2')
         .end((error, response) => {
           response.should.have.status(404);
-          response.should.be.json;
-          response.body.should.have.property('error');
-          response.body.error.should.equal('Could not find palettes with id of 8');
+          response.should.have.property("error");
+          response.body.should.be.a('object');
+
           done();
         })
     })
@@ -68,7 +68,7 @@ describe('api routes', () => {
         .get('/api/v1/projects/dirt')
         .end(function (err, response) {
           response.should.have.status(200);
-          response.should.be.json;
+          response.should.be.a('object');
           response.body[0].should.have.property('id');
           response.body[0].should.have.property('project_name');
 
@@ -81,8 +81,8 @@ describe('api routes', () => {
         .get('/api/v1/palletes/dracula')
         .end((error, response) => {
           response.should.have.status(404);
-          // response.error.text.should.equal('<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /api/v1/palletes/dracula</pre>\n</body>\n</html>\n')
-          // response.should.be.json;
+          response.error.text.should.equal('<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /api/v1/palletes/dracula</pre>\n</body>\n</html>\n')
+          // response.should.be.text/plain;
           // response.body.should.have.property('error');
           // response.body.error.should.equal('Could not find projects with name of dracula');
           done();
@@ -102,7 +102,6 @@ describe('api routes', () => {
           done();
         });
     })
-
   })
 
   describe('POST /api/v1/projects/', () => {
@@ -112,10 +111,10 @@ describe('api routes', () => {
         .send({
           project_name: 'dirt'
         })
-        .then(response => {
-          console.log(res.body);
+        .end((error, response) => {
           response.should.have.status(201)
-          // res.should.equal({id: 2})
+          response.should.be.json;
+          response.body.should.be.a('object');
           done()
         })
     })
@@ -134,17 +133,16 @@ describe('api routes', () => {
           color_5: '#555555',
           project_id: 1
         })
-        .then(resposne => {
+        .end((error, response) => {
           response.should.have.status(201);
           response.should.be.json;
-          response.body[0].should.have.property('id');
-          response.body[0].should.have.property('palette_name');
+          response.body.should.be.a('number');
 
           done();
         });
     })
     
-    it('should return an error if palette cant post', done => {
+    it('should return an error if palette can\'t post', done => {
       chai.request(server)
         .get('/api/v1/palletes/600')
         .end((error, response) => {
