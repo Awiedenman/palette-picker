@@ -42,7 +42,7 @@ class Palette {
 
 let palette = new Palette();
 
-$('.palette-generate-button').on('click', createPalette);
+$('.palette-generate-button').on('click', generatePalette);
 $('.unlocked-btn').on('click', toggleLock);
 $('.new-palette-form').on('submit', saveColorPalette);
 $('.new-project-form').on('submit', saveNewProject);
@@ -53,15 +53,32 @@ $(window).on('load', welcome());
 function welcome() {
   createPalette();
   projectRequest();
+  displayProjectsOnLoad();
 }
 
 function createPalette() {
-  // e.preventDefault();
   palette.populateColors();
   assignRandomColors();
 }
 
-function assignRandomColors(e) {
+function generatePalette(event) {
+  event.preventDefault();
+  createPalette(event);
+}
+
+function displayProjectsOnLoad(projectData) {
+  console.log(projectData);
+  projectData.map(project => {
+    const palettes = paletteRequestId(project.id)
+      .then(response => {
+        $('.project-container').append(`<div id=${project.project_name} class="saved-project"><h2>Project Name: ${project.project_name}</h2></div>`);
+        $('select').append(`<option value=${project.project_name}>${project.project_name}</option>`);
+        appendPalettes(response, project.project_id, project.project_name);
+      });
+  });
+}
+
+function assignRandomColors() {
   const paletteColors = palette.colors;
   for (let i = 0; i < 5; i++) {
     $(`.hex-${i}`).text(paletteColors[i].color);
@@ -90,7 +107,7 @@ function saveColorPalette(event) {
   let colors = hexCodes();
 // debugger;
   projectRequestByName(projectName).then((projectNameData) => {
-    console.log(projectNameData);
+    // console.log(projectNameData);
     // debugger;
     let projectId = projectNameData[0].id;
     let projectName = projectNameData[0].project_name;
@@ -110,9 +127,9 @@ function saveColorPalette(event) {
 }
 
 function appendPalettes(paletteSwatches, projectId, projectName) {
-  console.log('swatch', paletteSwatches, 'id', paletteSwatches[0].project_id, 'name', projectName);
+  // console.log('swatch', paletteSwatches, 'id', paletteSwatches[0].project_id, 'name', projectName);
   paletteSwatches.map(swatch => {
-    console.log('swatch_id', swatch.project_id);
+    // console.log('swatch_id', swatch.project_id);
     return $(`#${projectName}`).append(`
           <div class="palette-container" id="${swatch.palette_id}">
           <div class="saved-palette" title=${swatch.palette_name}>
@@ -126,7 +143,6 @@ function appendPalettes(paletteSwatches, projectId, projectName) {
           </div>
           </div>
         `);
-    
   });
 }
 
@@ -138,18 +154,6 @@ function saveNewProject(e) {
   $('.project-container').append(`<div id=${newProject} class="saved-palette"><h2>Project Name:${newProject}</h2></div>`);
   $('.new-project-input').val('');
   postProjectToDb(newProject);
-}
-
-function displayProjectsOnLoad(projectData) {
-  // console.log(projectData);
-  projectData.map(project => {
-    const palettes = paletteRequestId(project.id)
-      .then(response => {
-        $('.project-container').append(`<div id=${project.project_name} class="saved-project"><h2>Project Name: ${project.project_name}</h2></div>`);
-        $('select').append(`<option value=${project.project_name}>${project.project_name}</option>`);
-        appendPalettes(response, project.project_id, project.project_name);
-      });
-  });
 }
 
 function deletePalette(e) {
@@ -183,9 +187,10 @@ function paletteRequestId(projectId) {
 function projectRequest() {
   const url = '/api/v1/projects/';
   return fetch(url)
-    .then(response => response.json())
-    .then(projectData => displayProjectsOnLoad(projectData));
+  .then(response => response.json())
+  .then(projectData => displayProjectsOnLoad(projectData));
 }
+debugger;
 
 function projectRequestByName(projectName) {
   const url = `/api/v1/projects/${projectName}`;
