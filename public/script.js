@@ -187,10 +187,9 @@ function paletteRequestId(projectId) {
 function projectRequest() {
   const url = '/api/v1/projects/';
   return fetch(url)
-  .then(response => response.json())
-  .then(projectData => displayProjectsOnLoad(projectData));
+    .then(response => response.json())
+    .then(projectData => displayProjectsOnLoad(projectData));
 }
-debugger;
 
 function projectRequestByName(projectName) {
   const url = `/api/v1/projects/${projectName}`;
