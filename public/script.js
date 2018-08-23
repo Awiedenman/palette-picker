@@ -105,10 +105,8 @@ function saveColorPalette(event) {
   let projectName = $(event.target).children('select').val();
   let newPaletteName = $(event.target).children('.new-palette-input').val();
   let colors = hexCodes();
-// debugger;
   projectRequestByName(projectName).then((projectNameData) => {
     // console.log(projectNameData);
-    // debugger;
     let projectId = projectNameData[0].id;
     let projectName = projectNameData[0].project_name;
     let data = {
