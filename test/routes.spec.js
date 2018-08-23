@@ -14,8 +14,8 @@ describe('api routes', () => {
     knex.migrate.rollback()
       .then(() => knex.migrate.latest())
       .then(() => knex.seed.run())
-      .then(() => done())
-  })
+      .then(() => done());
+  });
 
   describe('GET api/v1/projects', () => {
     it('should return all projects', done => {
@@ -29,8 +29,8 @@ describe('api routes', () => {
 
           done();
         });
-    })
-  })
+    });
+  });
 
   describe('GET api/v1/palettes/:id', () => {
     it('should return a single palette', done => {
@@ -47,7 +47,7 @@ describe('api routes', () => {
 
           done();
         });
-    })
+    });
 
     it('should return an error if id doesn\'t exist', done => {
       chai.request(server)
@@ -58,9 +58,9 @@ describe('api routes', () => {
           response.body.should.be.a('object');
 
           done();
-        })
-    })
-  })
+        });
+    });
+  });
 
   describe('GET api/v1/projects/:project_name', () => {
     it('should return a single project', done => {
@@ -74,7 +74,7 @@ describe('api routes', () => {
 
           done();
         });
-    })
+    });
 
     it('should return an error if project_name doesn\'t exist', done => {
       chai.request(server)
@@ -86,9 +86,9 @@ describe('api routes', () => {
           // response.body.should.have.property('error');
           // response.body.error.should.equal('Could not find projects with name of dracula');
           done();
-        })
-    })
-  })
+        });
+    });
+  });
 
   describe('DELETE api/v1/palettes/:palette_id', () => {
     it('should delete a single palette', done => {
@@ -101,8 +101,8 @@ describe('api routes', () => {
           // response.body[0].should.have.property('project_name');
           done();
         });
-    })
-  })
+    });
+  });
 
   describe('POST /api/v1/projects/', () => {
     it('should post a single project', done => {
@@ -112,13 +112,13 @@ describe('api routes', () => {
           project_name: 'dirt'
         })
         .end((error, response) => {
-          response.should.have.status(201)
+          response.should.have.status(201);
           response.should.be.json;
           response.body.should.be.a('object');
-          done()
-        })
-    })
-  })
+          done();
+        });
+    });
+  });
 
   describe('POST /api/v1/palettes/', () => {
     it('should post a single palette', done => {
@@ -140,7 +140,7 @@ describe('api routes', () => {
 
           done();
         });
-    })
+    });
     
     it('should return an error if palette can\'t post', done => {
       chai.request(server)
@@ -149,7 +149,7 @@ describe('api routes', () => {
           response.should.have.status(404);
 
           done();
-        })
-    })
-  })
-})
+        });
+    });
+  });
+});
