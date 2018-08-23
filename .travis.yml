@@ -4,5 +4,5 @@ node_js:
 services:
     - postgresql
 before-script:
-    - psql -c 'CREATE DATABASE  ahuntingstest;' -U
+    - psql -c 'CREATE DATABASE  test_palette-picker;' -U
     postgres
