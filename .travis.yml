@@ -1,0 +1,8 @@
+language: node_js
+node_js:
+  - "node"
+services:
+    - postgresql
+before-script:
+    - psql -c 'CREATE DATABASE  ahuntingstest;' -U
+    postgres
