@@ -127,7 +127,7 @@ function saveColorPalette(event) {
 function appendPalettes(paletteSwatches, projectId, projectName) {
   // console.log('swatch', paletteSwatches, 'id', paletteSwatches[0].project_id, 'name', projectName);
   paletteSwatches.map(swatch => {
-    // console.log('swatch_id', swatch.project_id);
+    // console.log('swatch_id', swatch.project_id)
     return $(`#${projectName}`).append(`
           <div class="palette-container" id="${swatch.palette_id}">
           <div class="saved-palette" title=${swatch.palette_name}>
