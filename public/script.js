@@ -120,11 +120,12 @@ function saveColorPalette(event) {
     };
     postPaletteToDb(data);
     $(event.target).children('.new-palette-input').val('');
-    appendPalettes([data], projectId, projectName);
+    appendPalettes(projectName);
   });
 }
 
-function appendPalettes(paletteSwatches, projectId, projectName) {
+function appendPalettes(projectName) {
+
   // console.log('swatch', paletteSwatches, 'id', paletteSwatches[0].project_id, 'name', projectName);
   paletteSwatches.map(swatch => {
     // console.log('swatch_id', swatch.project_id);
@@ -181,6 +182,12 @@ function paletteRequestId(projectId) {
     .then(response => response.json())
     .catch(error => console.log(error));
 }
+
+function paletteRequest() {
+  const url = '/api/v1/palettes/';
+  return fetch(url)
+    .then(response => response.json())
+    .catch(error => console.log(error))
 
 function projectRequest() {
   const url = '/api/v1/projects/';
