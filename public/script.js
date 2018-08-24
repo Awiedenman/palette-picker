@@ -1,26 +1,11 @@
 class Palette {
   constructor() {
-    this.colors = [{
-      color: null,
-      locked: false
-    },
-    {
-      color: null,
-      locked: false
-    },
-    {
-      color: null,
-      locked: false
-    },
-    {
-      color: null,
-      locked: false
-    },
-    {
-      color: null,
-      locked: false
-    }
-    ];
+    this.colors = [
+      {color: null, locked: false},
+      {color: null, locked: false},
+      {color: null, locked: false},
+      {color: null, locked: false},
+      {color: null, locked: false}];
   }
 
   newColor() {
@@ -42,7 +27,7 @@ class Palette {
 
 let palette = new Palette();
 
-$('.palette-generate-button').on('click', generatePalette);
+$('.palette-generate-button').on('click', createPalette);
 $('.unlocked-btn').on('click', toggleLock);
 $('.new-palette-form').on('submit', saveColorPalette);
 $('.new-project-form').on('submit', saveNewProject);
@@ -53,7 +38,6 @@ $(window).on('load', welcome());
 function welcome() {
   createPalette();
   projectRequest();
-  displayProjectsOnLoad();
 }
 
 function createPalette() {
@@ -61,20 +45,13 @@ function createPalette() {
   assignRandomColors();
 }
 
-function generatePalette(event) {
-  event.preventDefault();
-  createPalette(event);
-}
-
 function displayProjectsOnLoad(projectData) {
-  console.log(projectData);
+  console.log('projects', projectData);
   projectData.map(project => {
-    const palettes = paletteRequestId(project.id)
-      .then(response => {
-        $('.project-container').append(`<div id=${project.project_name} class="saved-project"><h2>Project Name: ${project.project_name}</h2></div>`);
-        $('select').append(`<option value=${project.project_name}>${project.project_name}</option>`);
-        appendPalettes(response, project.project_id, project.project_name);
-      });
+    console.log("project", project);
+    $('.project-container').append(`<div id=${project.project_name} class="saved-project"><h2>Project Name: ${project.project_name}</h2></div>`);
+    $('select').append(`<option value=${project.project_name}>${project.project_name}</option>`);
+    appendPalettes(project.id, project.project_name);
   });
 }
 
@@ -105,10 +82,8 @@ function saveColorPalette(event) {
   let projectName = $(event.target).children('select').val();
   let newPaletteName = $(event.target).children('.new-palette-input').val();
   let colors = hexCodes();
-// debugger;
   projectRequestByName(projectName).then((projectNameData) => {
-    // console.log(projectNameData);
-    // debugger;
+    console.log('projectNameData', projectNameData);
     let projectId = projectNameData[0].id;
     let projectName = projectNameData[0].project_name;
     let data = {
@@ -121,28 +96,34 @@ function saveColorPalette(event) {
       project_id: projectId
     };
     postPaletteToDb(data);
+    //? does this need to be saync?
     $(event.target).children('.new-palette-input').val('');
-    appendPalettes([data], projectId, projectName);
+    appendPalettes(projectId, projectName);
   });
 }
 
-function appendPalettes(paletteSwatches, projectId, projectName) {
-  // console.log('swatch', paletteSwatches, 'id', paletteSwatches[0].project_id, 'name', projectName);
-  paletteSwatches.map(swatch => {
-    // console.log('swatch_id', swatch.project_id);
-    return $(`#${projectName}`).append(`
-          <div class="palette-container" id="${swatch.palette_id}">
-          <div class="saved-palette" title=${swatch.palette_name}>
-          <h3>Palette Name: ${swatch.palette_name}</h3> 
-          <div class="saved-palette-color color1" style='background-color:${swatch.color_1}'>${swatch.color_1}</div>
-          <div class="saved-palette-color color2" style='background-color:${swatch.color_2}'>${swatch.color_2}</div>
-          <div class="saved-palette-color color3" style='background-color:${swatch.color_3}'>${swatch.color_3}</div>
-          <div class="saved-palette-color color4" style='background-color:${swatch.color_4}'>${swatch.color_4}</div>
-          <div class="saved-palette-color color5" style='background-color:${swatch.color_5}'>${swatch.color_5}</div>
-          <div class="delete-btn trash-icon"></div>
-          </div>
-          </div>
-        `);
+function appendPalettes(projectId, projectName) {
+  paletteRequest().then((palettes) => {
+    console.log(palettes)
+    // console.log('swatch', paletteSwatches, 'id', paletteSwatches[0].project_id, 'name', projectName);
+    palettes.map(swatch => {
+      if (swatch.project_id === projectId){
+        console.log('swatch_id', swatch.project_id);
+        return $(`#${projectName}`).append(`
+            <div class="palette-container" id="${swatch.palette_id}">
+            <div class="saved-palette" title=${swatch.palette_name}>
+            <h3>Palette Name: ${swatch.palette_name}</h3> 
+            <div class="saved-palette-color color1" style='background-color:${swatch.color_1}'>${swatch.color_1}</div>
+            <div class="saved-palette-color color2" style='background-color:${swatch.color_2}'>${swatch.color_2}</div>
+            <div class="saved-palette-color color3" style='background-color:${swatch.color_3}'>${swatch.color_3}</div>
+            <div class="saved-palette-color color4" style='background-color:${swatch.color_4}'>${swatch.color_4}</div>
+            <div class="saved-palette-color color5" style='background-color:${swatch.color_5}'>${swatch.color_5}</div>
+            <div class="delete-btn trash-icon"></div>
+            </div>
+            </div>
+          `);
+      }
+    });
   });
 }
 
@@ -184,10 +165,18 @@ function paletteRequestId(projectId) {
     .catch(error => console.log(error));
 }
 
+function paletteRequest() {
+  const url = '/api/v1/palettes/';
+  return fetch(url)
+    .then(response => response.json())
+    .catch(error => console.log(error))
+}
+
 function projectRequest() {
   const url = '/api/v1/projects/';
   return fetch(url)
     .then(response => response.json())
+    // .then(data => console.log(data));
     .then(projectData => displayProjectsOnLoad(projectData));
 }
 
