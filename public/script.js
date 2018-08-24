@@ -1,26 +1,11 @@
 class Palette {
   constructor() {
-    this.colors = [{
-      color: null,
-      locked: false
-    },
-    {
-      color: null,
-      locked: false
-    },
-    {
-      color: null,
-      locked: false
-    },
-    {
-      color: null,
-      locked: false
-    },
-    {
-      color: null,
-      locked: false
-    }
-    ];
+    this.colors = [
+      {color: null, locked: false},
+      {color: null, locked: false},
+      {color: null, locked: false},
+      {color: null, locked: false},
+      {color: null, locked: false}];
   }
 
   newColor() {
@@ -42,7 +27,7 @@ class Palette {
 
 let palette = new Palette();
 
-$('.palette-generate-button').on('click', generatePalette);
+$('.palette-generate-button').on('click', createPalette);
 $('.unlocked-btn').on('click', toggleLock);
 $('.new-palette-form').on('submit', saveColorPalette);
 $('.new-project-form').on('submit', saveNewProject);
@@ -60,22 +45,13 @@ function createPalette() {
   assignRandomColors();
 }
 
-function generatePalette(event) {
-  event.preventDefault();
-  createPalette(event);
-}
-
 function displayProjectsOnLoad(projectData) {
-  console.log(projectData);
+  console.log('projects', projectData);
   projectData.map(project => {
     console.log("project", project);
-    
-    // paletteRequestId(project.id)
-    //   .then(response => {
-        $('.project-container').append(`<div id=${project.project_name} class="saved-project"><h2>Project Name: ${project.project_name}</h2></div>`);
-        $('select').append(`<option value=${project.project_name}>${project.project_name}</option>`);
-        appendPalettes(project.id, project.project_name);
-      // });
+    $('.project-container').append(`<div id=${project.project_name} class="saved-project"><h2>Project Name: ${project.project_name}</h2></div>`);
+    $('select').append(`<option value=${project.project_name}>${project.project_name}</option>`);
+    appendPalettes(project.id, project.project_name);
   });
 }
 
@@ -107,7 +83,7 @@ function saveColorPalette(event) {
   let newPaletteName = $(event.target).children('.new-palette-input').val();
   let colors = hexCodes();
   projectRequestByName(projectName).then((projectNameData) => {
-    // console.log(projectNameData);
+    console.log('projectNameData', projectNameData);
     let projectId = projectNameData[0].id;
     let projectName = projectNameData[0].project_name;
     let data = {
@@ -120,6 +96,7 @@ function saveColorPalette(event) {
       project_id: projectId
     };
     postPaletteToDb(data);
+    //? does this need to be saync?
     $(event.target).children('.new-palette-input').val('');
     appendPalettes(projectId, projectName);
   });
